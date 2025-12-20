@@ -13,9 +13,7 @@ On Ethereum mainnet, an attacker exploited a critical vulnerability in FutureSwa
 
 ---
 
-## Attack Overview
-
-### Key Addresses
+## Overview
 
 | Contract | Address | Role |
 |----------|---------|------|
@@ -30,7 +28,7 @@ On Ethereum mainnet, an attacker exploited a critical vulnerability in FutureSwa
 
 ---
 
-## Attack Timeline
+## Timeline
 
 ```
 Block 24026875                         Block 24026876                         Block 24027379
