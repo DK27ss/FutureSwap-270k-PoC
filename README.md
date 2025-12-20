@@ -2,7 +2,7 @@
 
 ## Summary
 
-On Ethereum mainnet, an attacker exploited a critical vulnerability in FutureSwap governance system to drain **$269,681.73 USDC** from 38 user accounts. The attack leveraged a flashloan to temporarily acquire voting power, manipulate governance permissions, and extract user funds—all within the span of two transactions.
+On Ethereum mainnet, an attacker exploited a critical vulnerability in FutureSwap governance system to drain **$269,681.73 USDC** from `38 EOA`. The attack leveraged a flashloan to temporarily acquire voting power, manipulate governance permissions, and extract user funds—all within the span of two transactions.
 
 | Metric | Value |
 |--------|-------|
@@ -50,6 +50,8 @@ Block 24026875                         Block 24026876                         Bl
                                            v
 ```
 
+<img width="1544" height="361" alt="image" src="https://github.com/user-attachments/assets/fbdca0bb-ba67-46c5-b9e8-00b82db73503" />
+
 ### Detailed Timeline
 
 | Block | Event | State Change |
@@ -67,31 +69,25 @@ Block 24026875                         Block 24026876                         Bl
 
 The attacker executed a flash loan governance attack in a single atomic transaction:
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    TRANSACTION FLOW                              │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  1. FLASH LOAN                                                  │
-│     ├── Source: Uniswap V2 Pair (FST/WETH)                     │
-│     ├── Amount: ~100,000 FST tokens                            │
-│     └── Reserve available: 5,297,492 FST                       │
-│                                                                 │
-│  2. GOVERNANCE VOTE                                             │
-│     ├── Use borrowed FST as voting power                       │
-│     ├── Call governance to modify Registry                     │
-│     └── Grant hasWalletAccess to attacker contract             │
-│                                                                 │
-│  3. REPAY FLASH LOAN                                            │
-│     ├── Return 100,000 FST + 0.3% fee                          │
-│     └── Transaction completes successfully                     │
-│                                                                 │
-│  RESULT: hasWalletAccess[attackerContract] = TRUE              │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+```                                               
+1. FLASH LOAN                                                  
+     ├── Source: Uniswap V2 Pair (FST/WETH)                     
+     ├── Amount: ~100,000 FST tokens                            
+     └── Reserve available: 5,297,492 FST                       
+                                                                 
+2. GOVERNANCE VOTE                                             
+     ├── Use borrowed FST as voting power                       
+     ├── Call governance to modify Registry                     
+     └── Grant hasWalletAccess to attacker contract             
+                                                                 
+3. REPAY FLASH LOAN                                            
+     ├── Return 100,000 FST + 0.3% fee                          
+     └── Transaction completes successfully                     
+                                                                 
+RESULT: hasWalletAccess[attackerContract] = TRUE              
 ```
 
-**Key Observation:** After the transaction, the attacker's FST balance was only 165 FST (likely leftover from fee calculations), proving the flash loan was fully repaid.
+After the transaction, the attacker FST balance was only `165 FST` (likely leftover from fee calculations), proving the flashloan was fully repaid.
 
 ### Phase 2: Fund Extraction (Block 24027379)
 
@@ -115,7 +111,7 @@ function sendFundsToExternalAccount(
 }
 ```
 
-**Attack Flow per Victim:**
+**Attack Flow**
 ```
 sendFundsToExternalAccount(wUSDC, victim, attacker, amount)
     │
@@ -129,7 +125,8 @@ sendFundsToExternalAccount(wUSDC, victim, attacker, amount)
             └── Funds sent to attacker
 ```
 
-### Stolen Amounts by Victim
+
+### Stolen Amounts by EOA
 
 | Victim # | Address | Amount (USDC) |
 |----------|---------|---------------|
@@ -153,28 +150,22 @@ sendFundsToExternalAccount(wUSDC, victim, attacker, amount)
 The attack exploited four critical weaknesses in FutureSwap governance design:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    VULNERABILITY ROOT CAUSES                     │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  1. NO TIMELOCK                                                 │
-│     └── Governance changes took effect IMMEDIATELY              │
-│         No delay between vote and execution                     │
-│                                                                 │
-│  2. NO SNAPSHOT VOTING                                          │
-│     └── Voting power checked at EXECUTION time                  │
-│         Not at proposal creation time                           │
-│         Allows flash-loaned tokens to vote                      │
-│                                                                 │
-│  3. FLASH LOAN VULNERABLE                                       │
-│     └── No protection against borrowed voting power             │
-│         5.3M FST available in Uniswap for flash loans          │
-│                                                                 │
-│  4. INSUFFICIENT QUORUM                                         │
-│     └── Quorum too low or non-existent                         │
-│         Single actor could pass proposals                       │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+1. NO TIMELOCK                                                 
+     └── Governance changes took effect IMMEDIATELY              
+         No delay between vote and execution                     
+                                                                 
+2. NO SNAPSHOT VOTING                                          
+     └── Voting power checked at EXECUTION time                  
+         Not at proposal creation time                           
+         Allows flash-loaned tokens to vote                      
+                                                                 
+3. FLASHLOAN VULNERABLE                                       
+     └── No protection against borrowed voting power             
+         5.3M FST available in Uniswap for flash loans          
+                                                                 
+4. INSUFFICIENT QUORUM                                         
+     └── Quorum too low or non-existent                         
+         Single actor could pass proposals                       
 ```
 
 ---
@@ -183,13 +174,11 @@ The attack exploited four critical weaknesses in FutureSwap governance design:
 
 - Attack Transaction (Phase 1): Block 24026876
 - Attack Transaction (Phase 2): Block 24027379
-- [OpenZeppelin Governance](https://docs.openzeppelin.com/contracts/4.x/governance)
-- [Compound Timelock](https://github.com/compound-finance/compound-protocol/blob/master/contracts/Timelock.sol)
-- [ERC20Votes Extension](https://docs.openzeppelin.com/contracts/4.x/api/token/erc20#ERC20Votes)
+- [Attack TX](https://app.blocksec.com/explorer/tx/eth/0x39e584cdb52adf6b2ed5bb44bfda0e1b254cb0a3925911cc33d842feaf0a8b95)
 
 ---
 
-## Appendix: Attack Trace Summary
+## Trace Summary
 
 ```
 Attacker Contract: 0xBc59f04fA5E5936cf49991A268832714F17bFFA7
