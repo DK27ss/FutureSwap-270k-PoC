@@ -212,9 +212,7 @@ contract FullExploitTest is Test {
         emit log_named_decimal_uint("  Attacker USDC Before", attackerUSDBeforeDrain, 6);
         emit log_named_decimal_uint("  Attacker USDC After", attackerUSDAfterDrain, 6);
         emit log("");
-        emit log("+---------------------------------------------------------------+");
         emit log_named_decimal_uint("  TOTAL PROFIT", profit, 6);
-        emit log("+---------------------------------------------------------------+");
     }
 
     function testCompareBeforeAfter() public {
