@@ -2,7 +2,7 @@
 
 ## Summary
 
-On Ethereum mainnet, an attacker exploited a critical vulnerability in FutureSwap governance system to drain **$269,681.73 USDC** from `38 EOA`, the attack leveraged a flashloan to temporarily acquire voting power, manipulate governance permissions, and extract user funds—all within the span of two transactions.
+On Ethereum mainnet, an attacker exploited a critical vulnerability in FutureSwap governance system to drain **$269,681.73 USDC** from `38 EOA`, the attack leveraged a flashloan to temporarily acquire voting power, manipulate governance permissions, and extract user funds (EOA) within the span of two transactions.
 
 | Metric | Value |
 |--------|-------|
