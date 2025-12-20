@@ -50,8 +50,6 @@ Block 24026875                         Block 24026876                         Bl
                                            v
 ```
 
-<img width="1544" height="361" alt="image" src="https://github.com/user-attachments/assets/fbdca0bb-ba67-46c5-b9e8-00b82db73503" />
-
 ### Detailed Timeline
 
 | Block | Event | State Change |
@@ -124,6 +122,10 @@ sendFundsToExternalAccount(wUSDC, victim, attacker, amount)
     └── 3. USDC.transfer(attackerWallet, amount)
             └── Funds sent to attacker
 ```
+
+<img width="1544" height="361" alt="image" src="https://github.com/user-attachments/assets/fbdca0bb-ba67-46c5-b9e8-00b82db73503" />
+
+- [Attack TX](https://app.blocksec.com/explorer/tx/eth/0x39e584cdb52adf6b2ed5bb44bfda0e1b254cb0a3925911cc33d842feaf0a8b95)
 
 
 ### Stolen Amounts by EOA
@@ -201,7 +203,7 @@ The attack exploited four critical weaknesses in FutureSwap governance design:
 
 - Attack Transaction (Phase 1): Block 24026876
 - Attack Transaction (Phase 2): Block 24027379
-- [Attack TX](https://app.blocksec.com/explorer/tx/eth/0x39e584cdb52adf6b2ed5bb44bfda0e1b254cb0a3925911cc33d842feaf0a8b95)
+- [Blocksec Phalcon TX](https://app.blocksec.com/explorer/tx/eth/0x39e584cdb52adf6b2ed5bb44bfda0e1b254cb0a3925911cc33d842feaf0a8b95)
 
 ---
 
