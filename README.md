@@ -223,3 +223,12 @@ Attacker Contract: 0xBc59f04fA5E5936cf49991A268832714F17bFFA7
             │   └── USDC.transfer(attackerWallet, amount)
             └── Total stolen: $269,681.73 USDC
 ```
+
+>
+>Company : https://blockraider.xyz/
+>
+>Community : https://discord.gg/Vqqt7jyRr7
+>
+>Disclosure : https://t.me/blockraider_alerts_bot
+
+<img width="161" height="51" alt="blockraider" src="https://github.com/user-attachments/assets/dc86222a-b5fb-49e8-9a9d-350973b7521d" />
